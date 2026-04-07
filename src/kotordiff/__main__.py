@@ -30,7 +30,11 @@ from utility.system.app_process.shutdown import terminate_main_process
 
 def is_frozen() -> bool:
     """Check if running as a frozen executable."""
-    return getattr(sys, "frozen", False) or getattr(sys, "_MEIPASS", False) or tempfile.gettempdir() in sys.executable
+    return (
+        getattr(sys, "frozen", False)
+        or getattr(sys, "_MEIPASS", False)
+        or tempfile.gettempdir() in sys.executable
+    )
 
 
 CURRENT_VERSION = "1.0.0"
@@ -53,7 +57,9 @@ def on_app_crash(
                 fake_traceback = None
                 for frame_info in current_stack:
                     frame = frame_info.frame
-                    fake_traceback = TracebackType(fake_traceback, frame, frame.f_lasti, frame.f_lineno)
+                    fake_traceback = TracebackType(
+                        fake_traceback, frame, frame.f_lasti, frame.f_lineno
+                    )
                 exc = exc.with_traceback(fake_traceback)
                 tback = exc.__traceback__
     RobustLogger().error("Unhandled exception caught.", exc_info=(etype, exc, tback))
@@ -108,7 +114,9 @@ def main():
                 execute_cli(cmdline_args)
             else:
                 RobustLogger().exception("GUI not available")
-                RobustLogger().warning("[Warning] Display driver not available, cannot run in GUI mode without command-line arguments.")
+                RobustLogger().warning(
+                    "[Warning] Display driver not available, cannot run in GUI mode without command-line arguments."
+                )
                 RobustLogger().info("[Info] Use --help to see CLI options")
                 sys.exit(0)
 

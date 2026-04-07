@@ -24,11 +24,15 @@ if not getattr(sys, "frozen", False):
             sys.path.append(working_dir)
 
     with suppress(Exception):
-        pykotor_path = pathlib.Path(__file__).parents[4] / "Libraries" / "PyKotor" / "src" / "pykotor"
+        pykotor_path = (
+            pathlib.Path(__file__).parents[4] / "Libraries" / "PyKotor" / "src" / "pykotor"
+        )
         if pykotor_path.exists():
             update_sys_path(pykotor_path.parent)
     with suppress(Exception):
-        utility_path = pathlib.Path(__file__).parents[4] / "Libraries" / "Utility" / "src" / "utility"
+        utility_path = (
+            pathlib.Path(__file__).parents[4] / "Libraries" / "Utility" / "src" / "utility"
+        )
         if utility_path.exists():
             update_sys_path(utility_path.parent)
     with suppress(Exception):
@@ -147,9 +151,16 @@ class KotorDiffApp(ThemedApp):
         self.path1_combobox = ttk.Combobox(paths_frame, style="TCombobox")
         self.path1_combobox.grid(row=2, column=0, columnspan=3, sticky="ew", padx=5, pady=2)
         self.path1_combobox["values"] = self._get_installation_paths()
-        self.path1_combobox.bind("<<ComboboxSelected>>", lambda e: self.root.after(10, lambda: self.move_cursor_to_end(cast("ttk.Combobox", e.widget))))
+        self.path1_combobox.bind(
+            "<<ComboboxSelected>>",
+            lambda e: self.root.after(
+                10, lambda: self.move_cursor_to_end(cast("ttk.Combobox", e.widget))
+            ),
+        )
 
-        self.path1_browse_button = self.create_themed_button(paths_frame, "Browse...", self._browse_path1)
+        self.path1_browse_button = self.create_themed_button(
+            paths_frame, "Browse...", self._browse_path1
+        )
         self.path1_browse_button.grid(row=2, column=3, padx=5, pady=2)
 
         # Path 2 (Older/Vanilla)
@@ -198,7 +209,9 @@ class KotorDiffApp(ThemedApp):
 
         self.path2_combobox.bind("<<ComboboxSelected>>", on_path2_combobox_selected)
 
-        self.path2_browse_button = self.create_themed_button(paths_frame, "Browse...", self._browse_path2)
+        self.path2_browse_button = self.create_themed_button(
+            paths_frame, "Browse...", self._browse_path2
+        )
         self.path2_browse_button.grid(row=5, column=3, padx=5, pady=2)
 
         # =========================================================================
@@ -230,7 +243,9 @@ class KotorDiffApp(ThemedApp):
         self.tslpatchdata_entry.grid(row=1, column=1, sticky="ew", padx=5, pady=2)
         self.tslpatchdata_entry.insert(0, "Path to tslpatchdata folder")
 
-        self.tslpatchdata_browse_button = self.create_themed_button(options_frame, "Browse...", self._browse_tslpatchdata)
+        self.tslpatchdata_browse_button = self.create_themed_button(
+            options_frame, "Browse...", self._browse_tslpatchdata
+        )
         self.tslpatchdata_browse_button.grid(row=1, column=2, padx=5, pady=2)
 
         # INI Filename row
@@ -245,7 +260,12 @@ class KotorDiffApp(ThemedApp):
         log_level_label = self.create_themed_label(options_frame, "Log Level:")
         log_level_label.grid(row=3, column=0, sticky="w", padx=5, pady=2)
 
-        self.log_level_combobox = ttk.Combobox(options_frame, style="TCombobox", values=["debug", "info", "warning", "error", "critical"], state="readonly")
+        self.log_level_combobox = ttk.Combobox(
+            options_frame,
+            style="TCombobox",
+            values=["debug", "info", "warning", "error", "critical"],
+            state="readonly",
+        )
         self.log_level_combobox.set("info")
         self.log_level_combobox.grid(row=3, column=1, sticky="ew", padx=5, pady=2)
 
@@ -293,10 +313,14 @@ class KotorDiffApp(ThemedApp):
         self.run_diff_button = self.create_themed_button(button_frame, "Run Diff", self.run_diff)
         self.run_diff_button.grid(row=0, column=0, sticky="ew", padx=5)
 
-        self.clear_button = self.create_themed_button(button_frame, "Clear Output", self.clear_main_text)
+        self.clear_button = self.create_themed_button(
+            button_frame, "Clear Output", self.clear_main_text
+        )
         self.clear_button.grid(row=0, column=1, sticky="ew", padx=5)
 
-        self.close_button = self.create_themed_button(button_frame, "Close", self.handle_exit_button)
+        self.close_button = self.create_themed_button(
+            button_frame, "Close", self.handle_exit_button
+        )
         self.close_button.grid(row=0, column=2, sticky="ew", padx=5)
 
         # Move progress bar to row 4
@@ -377,7 +401,9 @@ class KotorDiffApp(ThemedApp):
         if not self.validate_inputs():
             return
 
-        self.start_task_thread(self._run_diff_thread, args=(self.simple_thread_event,), name="KotorDiff_thread")
+        self.start_task_thread(
+            self._run_diff_thread, args=(self.simple_thread_event,), name="KotorDiff_thread"
+        )
 
     def _run_diff_thread(self, should_cancel: Event):
         """Execute the diff operation."""
