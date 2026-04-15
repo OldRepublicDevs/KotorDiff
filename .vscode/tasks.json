@@ -386,7 +386,6 @@
         "--exclude-module=PyQt5",
         "--exclude-module=PyOpenGL",
         "--exclude-module=PyGLM",
-        "--exclude-module=dl_translate",
         "--exclude-module=torch",
         "--path=${workspaceFolder}${pathSeparator}tools${pathSeparator}k_batchpatcher",
         "tools${pathSeparator}k_batchpatcher${pathSeparator}__main__.py"
